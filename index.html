@@ -1,284 +1,224 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/x-icon" href="ijodeputa (1).ico">
 <title>OilWorkerPantheon — Dev Notes</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+
 <style>
-  :root {
-    --bg: #0a0e14;
-    --bg2: #0f1520;
-    --border: #1e2a38;
-    --text: #8fa8be;
-    --text-dim: #3a4f62;
-    --red: #c0392b;
-    --red-bright: #e05040;
-    --blue: #1a5fa0;
-    --blue-bright: #2a7fd4;
-    --white: #d0dde8;
-  }
+:root {
+  --bg:#0a0e14;
+  --bg2:#0f1520;
+  --border:#1e2a38;
+  --text:#8fa8be;
+  --text-dim:#3a4f62;
+  --red:#c0392b;
+  --red-bright:#e05040;
+  --blue:#1a5fa0;
+  --blue-bright:#2a7fd4;
+  --white:#d0dde8;
+}
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+*{margin:0;padding:0;box-sizing:border-box;}
 
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 14px;
-    line-height: 1.8;
-  }
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Share Tech Mono',monospace;
+  font-size:14px;
+  line-height:1.8;
 
-  /* PIXEL GRID BACKGROUND */
-  body {
-    background-image:
-      linear-gradient(var(--border) 1px, transparent 1px),
-      linear-gradient(90deg, var(--border) 1px, transparent 1px);
-    background-size: 24px 24px;
-    background-color: var(--bg);
-  }
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size:24px 24px;
+}
 
-  /* ═══════════ HEADER ═══════════ */
-  header {
-    text-align: center;
-    padding: 56px 20px 48px;
-    border-bottom: 2px solid var(--border);
-    background: var(--bg);
-    image-rendering: pixelated;
-  }
+/* HEADER */
+header{
+  text-align:center;
+  padding:56px 20px 48px;
+  border-bottom:2px solid var(--border);
+}
 
-  .logo {
-    font-family: 'Press Start 2P', monospace;
-    font-size: clamp(13px, 2.5vw, 22px);
-    line-height: 1.8;
-    background: linear-gradient(
-      180deg,
-      var(--red-bright) 0%,
-      #aa44aa 50%,
-      var(--blue-bright) 100%
-    );
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    letter-spacing: 2px;
-  }
+.logo{
+  font-family:'Press Start 2P',monospace;
+  font-size:clamp(13px,2.5vw,22px);
+  line-height:1.8;
+  background:linear-gradient(180deg,var(--red-bright),#aa44aa,var(--blue-bright));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  letter-spacing:2px;
+}
 
-  .logo-sub {
-    font-size: 10px;
-    color: var(--text-dim);
-    margin-top: 16px;
-    letter-spacing: 4px;
-  }
+.logo-sub{
+  font-size:10px;
+  color:var(--text-dim);
+  margin-top:16px;
+  letter-spacing:4px;
+}
 
-  .visitor-bar {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    margin-top: 24px;
-    padding: 8px 18px;
-    border: 1px solid var(--border);
-    font-size: 10px;
-    color: var(--text-dim);
-    letter-spacing: 2px;
-    background: var(--bg2);
-  }
+.visitor-bar{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  margin-top:24px;
+  padding:8px 18px;
+  border:1px solid var(--border);
+  font-size:10px;
+  color:var(--text-dim);
+  letter-spacing:2px;
+  background:var(--bg2);
+}
 
-  .visitor-dot {
-    width: 6px; height: 6px;
-    background: var(--red-bright);
-    animation: blink 1.2s steps(1) infinite;
-  }
+.visitor-dot{
+  width:6px;height:6px;
+  background:var(--red-bright);
+  animation:blink 1.2s steps(1) infinite;
+}
 
-  @keyframes blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0; }
-  }
+@keyframes blink{
+  50%{opacity:0;}
+}
 
-  #visitor-count { color: var(--red-bright); }
+/* NAV */
+nav{
+  display:flex;
+  justify-content:center;
+  border-bottom:2px solid var(--border);
+  background:var(--bg2);
+  position:sticky;
+  top:0;
+}
 
-  /* ═══════════ NAV ═══════════ */
-  nav {
-    display: flex;
-    justify-content: center;
-    border-bottom: 2px solid var(--border);
-    background: var(--bg2);
-    position: sticky;
-    top: 0;
-    z-index: 10;
-  }
+nav a{
+  font-family:'Press Start 2P',monospace;
+  font-size:9px;
+  color:var(--text-dim);
+  text-decoration:none;
+  padding:14px 22px;
+  border-right:1px solid var(--border);
+}
 
-  nav a {
-    font-family: 'Press Start 2P', monospace;
-    font-size: 9px;
-    color: var(--text-dim);
-    text-decoration: none;
-    padding: 14px 22px;
-    border-right: 1px solid var(--border);
-    letter-spacing: 1px;
-    transition: color 0.1s, background 0.1s;
-  }
+nav a:hover{
+  color:var(--white);
+}
 
-  nav a:first-child { border-left: 1px solid var(--border); }
-  nav a:hover { color: var(--white); background: rgba(255,255,255,0.02); }
+/* MAIN */
+main{
+  max-width:780px;
+  margin:auto;
+  padding:48px 20px 80px;
+}
 
-  /* ═══════════ MAIN ═══════════ */
-  main {
-    max-width: 780px;
-    margin: 0 auto;
-    padding: 48px 20px 80px;
-  }
+.section-label{
+  font-family:'Press Start 2P',monospace;
+  font-size:8px;
+  color:var(--text-dim);
+  letter-spacing:4px;
+  margin-bottom:24px;
+  border-bottom:1px solid var(--border);
+  padding-bottom:10px;
+}
 
-  .section-label {
-    font-family: 'Press Start 2P', monospace;
-    font-size: 8px;
-    color: var(--text-dim);
-    letter-spacing: 4px;
-    margin-bottom: 24px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid var(--border);
-  }
+/* CARD */
+.note-card{
+  display:flex;
+  border:1px solid var(--border);
+  background:var(--bg2);
+  margin-bottom:16px;
+}
 
-  /* ═══════════ CARD ═══════════ */
-  .note-card {
-    display: flex;
-    border: 1px solid var(--border);
-    background: var(--bg2);
-    margin-bottom: 16px;
-  }
+.note-card:hover{
+  border-color:var(--red);
+}
 
-  .note-card:hover {
-    border-color: var(--red);
-  }
+.note-date{
+  width:72px;
+  border-right:1px solid var(--border);
+  padding:20px 8px;
+  text-align:center;
+}
 
-  /* DATE */
-  .note-date {
-    width: 72px;
-    min-width: 72px;
-    border-right: 1px solid var(--border);
-    padding: 20px 8px;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
-    background: var(--bg);
-  }
+.note-date .day{
+  font-family:'Press Start 2P';
+  font-size:18px;
+  color:var(--red-bright);
+}
 
-  .note-date .day {
-    font-family: 'Press Start 2P', monospace;
-    font-size: 18px;
-    color: var(--red-bright);
-    line-height: 1;
-  }
+.note-date .month,
+.note-date .year{
+  font-size:9px;
+  color:var(--text-dim);
+}
 
-  .note-date .month {
-    font-size: 9px;
-    color: var(--text-dim);
-    letter-spacing: 1px;
-  }
+.note-content{
+  padding:20px 24px;
+  flex:1;
+}
 
-  .note-date .year {
-    font-size: 8px;
-    color: var(--text-dim);
-    opacity: 0.4;
-  }
+.note-tag{
+  font-size:9px;
+  color:var(--red-bright);
+  letter-spacing:3px;
+}
 
-  /* CONTENT */
-  .note-content {
-    padding: 20px 24px;
-    flex: 1;
-  }
+.note-title{
+  font-family:'Press Start 2P';
+  font-size:13px;
+  color:var(--white);
+  margin:14px 0;
+}
 
-  .note-tag {
-    font-size: 9px;
-    color: var(--red-bright);
-    letter-spacing: 3px;
-    margin-bottom: 8px;
-  }
+.note-body{
+  font-size:13px;
+  line-height:1.85;
+}
 
-  .note-title {
-    font-family: 'Press Start 2P', monospace;
-    font-size: 13px;
-    color: var(--white);
-    margin-bottom: 14px;
-    line-height: 1.6;
-    letter-spacing: 1px;
-  }
+.note-footer{
+  display:flex;
+  justify-content:space-between;
+  border-top:1px solid var(--border);
+  padding-top:12px;
+}
 
-  .note-body {
-    font-size: 13px;
-    color: var(--text);
-    line-height: 1.85;
-    margin-bottom: 18px;
-  }
+.like-btn{
+  border:1px solid var(--border);
+  background:none;
+  color:var(--text-dim);
+  padding:5px 12px;
+  cursor:pointer;
+}
 
-  .note-body p + p { margin-top: 10px; }
+.like-btn.liked{
+  color:var(--red-bright);
+  border-color:var(--red-bright);
+}
 
-  /* CARD FOOTER */
-  .note-footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-top: 1px solid var(--border);
-    padding-top: 12px;
-  }
-
-  .like-btn {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background: none;
-    border: 1px solid var(--border);
-    color: var(--text-dim);
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 1px;
-    padding: 5px 12px;
-    cursor: pointer;
-    transition: all 0.1s;
-  }
-
-  .like-btn:hover { border-color: var(--red-bright); color: var(--red-bright); }
-  .like-btn.liked { border-color: var(--red-bright); color: var(--red-bright); }
-
-  .note-id {
-    font-size: 9px;
-    color: var(--text-dim);
-    opacity: 0.4;
-    letter-spacing: 2px;
-  }
-
-  /* ═══════════ FOOTER ═══════════ */
-  footer {
-    border-top: 2px solid var(--border);
-    text-align: center;
-    padding: 28px 20px;
-    font-size: 9px;
-    color: var(--text-dim);
-    letter-spacing: 3px;
-    background: var(--bg2);
-  }
-
-  footer span { color: var(--red-bright); }
-
-  @media (max-width: 500px) {
-    .note-date { width: 56px; min-width: 56px; }
-    .note-date .day { font-size: 14px; }
-    .note-title { font-size: 10px; }
-    nav a { font-size: 7px; padding: 12px 12px; }
-  }
+/* FOOTER */
+footer{
+  border-top:2px solid var(--border);
+  text-align:center;
+  padding:28px;
+  font-size:9px;
+  color:var(--text-dim);
+}
 </style>
 </head>
+
 <body>
 
 <header>
   <div class="logo">OILWORKERPANTHEON<br>DEV NOTES HUB</div>
   <div class="logo-sub">solo indie developer — building in the dark</div>
+
   <div class="visitor-bar">
     <span class="visitor-dot"></span>
     <span>VISITORS:</span>
-    <span id="visitor-count">——</span>
+    <span id="visitor-count">—</span>
   </div>
 </header>
 
@@ -290,144 +230,93 @@
 
 <main>
 
-  <div class="section-label" id="notes">// DEV LOG ENTRIES</div>
+<div class="section-label" id="notes">// DEV LOG ENTRIES</div>
 
-  <!-- ENTRY 001 -->
-  <article class="note-card">
-    <div class="note-date">
-      <span class="day">01</span>
-      <span class="month">JUN</span>
-      <span class="year">2025</span>
-    </div>
-    <div class="note-content">
-      <div class="note-tag">// CONCEPT — DAY ZERO</div>
-      <h2 class="note-title">How the hell did I get to this???</h2>
-      <div class="note-body">
-        <p>I got removed from the Dev team I helped found. Imma be honest, that hit hard... but in the end it was just another door closing :'D</p>
-        <p>So I opened a new one. This is Red Project — a game about economies, rules, and emergent systems. No characters. No story. No 3D open world. Just systems that behave like real systems do: complex, fragile, and infinitely surprising (I hope).</p>
-        <p>I started thinking: "What if Balatro meets Conway's Game of Life? What if I make it a little funnier? What if I had to solve the economy for an ancient civilization?" Those questions lead to this project: You are the legislator of one of the first banks in the Ancient Greece. The economy obeys your laws. Or doesn't.</p>
-        <p>Engine: Unity6 2D. Team size: 1. Timeline: whenever it's ready.</p>
-        <p>Latest news: I got a fuckin 14 pages GDD (Game Design Document) and I think it's just gettin bigger :'[</p>
-      </div>
-      <div class="note-footer">
-        <button class="like-btn" onclick="toggleLike(this)">
-          ♥ <span class="count">0</span>
-        </button>
-        <span class="note-id">// ENTRY_001</span>
-      </div>
-    </div>
-  </article>
+<!-- ENTRY -->
+<article class="note-card" data-id="entry_001">
+  <div class="note-date">
+    <span class="day">01</span>
+    <span class="month">JUN</span>
+    <span class="year">2025</span>
+  </div>
 
-  <!-- ADD NEW ENTRIES ABOVE THIS LINE — copy the article block above -->
+  <div class="note-content">
+    <div class="note-tag">// CONCEPT — DAY ZERO</div>
+    <h2 class="note-title">How the hell did I get to this???</h2>
 
-  <div class="section-label" id="about" style="margin-top:48px;">// ABOUT</div>
+    <div class="note-body">
+      <p>I got removed from the dev team I helped found. That hit hard.</p>
+      <p>So I opened a new door. Red Project.</p>
+      <p>Systems. Economy. Emergence.</p>
+    </div>
 
-  <article class="note-card">
-    <div class="note-date">
-      <span class="day">??</span>
-      <span class="month">???</span>
-      <span class="year">????</span>
+    <div class="note-footer">
+      <button class="like-btn">♥ <span class="count">0</span></button>
+      <span class="note-id">// ENTRY_001</span>
     </div>
-    <div class="note-content">
-      <div class="note-tag">// Hello There.</div>
-      <h2 class="note-title">OilWorkerPantheon</h2>
-      <div class="note-body">
-        <p>That's the name I chose to show myself to the world. Maybe a bad decision. Definitely a bad decision. Anyway.</p>
-        <p>I love games and I loved making games back in Collegue so Here I am, making a new one</p>
-        <p>This time on my own. Me and myself. This is the official dev notes for my STILL untitled economic simulation game</p>  
-        <p> No publisher. No team. No release date. Currently early (pretty early) prototyping</p>
-        <p>Updates whenever something worth saying happens.</p>
-      </div>
-      <div class="note-footer">
-        <span></span>
-        <span class="note-id">// ABOUT</span>
-      </div>
-    </div>
-  </article>
+  </div>
+</article>
+
+<div class="section-label" id="about">// ABOUT</div>
 
 </main>
 
 <footer>
-  <span>OilWorkerPantheon</span> — no ads. no tracking. just dev notes.
+  OilWorkerPantheon — no ads. no tracking. just dev notes.
 </footer>
 
 <script>
-// CONTADOR DE VISITAS GLOBALES
-async function loadVisitorCount() {
-  try {
-    const r = await fetch('https://api.counterapi.dev/v1/oilworkerpantheon/visits/up');
-    const d = await r.json();
-    // La API devuelve el valor dentro de d.Count (con C mayúscula en algunas versiones) o d.count
-    const value = d.count !== undefined ? d.count : d.Count;
-    document.getElementById('visitor-count').textContent = parseInt(value).toLocaleString('en-US');
-  } catch(e) {
-    document.getElementById('visitor-count').textContent = '—';
+// VISITS
+async function loadVisitors(){
+  try{
+    const r=await fetch('https://api.counterapi.dev/v1/oilworkerpantheon/visits/up');
+    const d=await r.json();
+    document.getElementById('visitor-count').textContent=(d.count||d.Count).toLocaleString();
+  }catch{
+    document.getElementById('visitor-count').textContent='—';
   }
 }
-loadVisitorCount();
+loadVisitors();
 
-// ID ÚNICO PARA TU POST
-const noteId = "entry_001"; 
+// LIKES MULTI-POST
+document.querySelectorAll('.note-card').forEach(card=>{
+  const id=card.dataset.id;
+  const btn=card.querySelector('.like-btn');
+  const countEl=btn.querySelector('.count');
+  const key='liked_'+id;
 
-// CARGAR LIKES GLOBALES AL INICIAR LA PÁGINA
-async function loadLikes() {
-  const btn = document.querySelector('.like-btn');
-  const countEl = btn.querySelector('.count');
-  
-  try {
-    // Pedimos el valor actual sin alterarlo (quitamos el /up o /down)
-    const r = await fetch(`https://api.counterapi.dev/v1/oilworkerpantheon/likes_${noteId}`);
-    const d = await r.json();
-    
-    // Validamos exactamente la propiedad que responde CounterAPI
-    const totalLikes = d.count !== undefined ? d.count : (d.Count !== undefined ? d.Count : 0);
-    
-    countEl.textContent = totalLikes;
-  } catch(e) {
-    countEl.textContent = '0';
+  async function loadLikes(){
+    try{
+      const r=await fetch(`https://api.counterapi.dev/v1/oilworkerpantheon/likes_${id}`);
+      const d=await r.json();
+      countEl.textContent=d.count||d.Count||0;
+    }catch{
+      countEl.textContent='0';
+    }
+
+    if(localStorage.getItem(key)){
+      btn.classList.add('liked');
+    }
   }
 
-  // Mantenemos el botón rojo si este usuario específico ya votó
-  if (localStorage.getItem('liked_' + noteId)) {
-    btn.classList.add('liked');
-  }
-}
-loadLikes();
-
-// ACCIÓN DE DAR/QUITAR LIKE
-async function toggleLike(btn) {
-  const countEl = btn.querySelector('.count');
-  const key = 'liked_' + noteId;
-  
-  // Si ya le dio like, lo decrementamos globalmente
-  if (localStorage.getItem(key)) {
-    try {
-      const r = await fetch(`https://api.counterapi.dev/v1/oilworkerpantheon/likes_${noteId}/down`);
-      const d = await r.json();
-      const totalLikes = d.count !== undefined ? d.count : d.Count;
-      
+  btn.onclick=async()=>{
+    if(localStorage.getItem(key)){
+      const r=await fetch(`https://api.counterapi.dev/v1/oilworkerpantheon/likes_${id}/down`);
+      const d=await r.json();
+      countEl.textContent=d.count||d.Count;
       localStorage.removeItem(key);
       btn.classList.remove('liked');
-      countEl.textContent = totalLikes;
-    } catch(e){
-      // Fail-safe por si la API falla en el momento
-      countEl.textContent = Math.max(0, parseInt(countEl.textContent) - 1);
-    }
-  } else {
-    // Si no ha votado, sumamos globalmente
-    try {
-      const r = await fetch(`https://api.counterapi.dev/v1/oilworkerpantheon/likes_${noteId}/up`);
-      const d = await r.json();
-      const totalLikes = d.count !== undefined ? d.count : d.Count;
-      
-      localStorage.setItem(key, '1');
+    }else{
+      const r=await fetch(`https://api.counterapi.dev/v1/oilworkerpantheon/likes_${id}/up`);
+      const d=await r.json();
+      countEl.textContent=d.count||d.Count;
+      localStorage.setItem(key,'1');
       btn.classList.add('liked');
-      countEl.textContent = totalLikes;
-    } catch(e){
-      countEl.textContent = parseInt(countEl.textContent) + 1;
     }
-  }
-}
+  };
+
+  loadLikes();
+});
 </script>
 
 </body>
