@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="styles.css">
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <title>OilWorkerPantheon — Dev Notes</title>
 </head>
 <body>
@@ -84,74 +85,9 @@
 </main>
 
 <footer>
+  <script src="script.js"></script>
   <span>OilWorkerPantheon</span> — no ads. no tracking. just dev notes.
 </footer>
-
-<script>
-// CONTADOR DE VISITAS GLOBALES
-async function loadVisitorCount() {
-  try {
-    const r = await fetch('https://api.counterapi.dev/v1/oilworkerpantheon/visits/up');
-    const d = await r.json();
-    // La API devuelve el valor dentro de d.Count (con C mayúscula en algunas versiones) o d.count
-    const value = d.count !== undefined ? d.count : d.Count;
-    document.getElementById('visitor-count').textContent = parseInt(value).toLocaleString('en-US');
-  } catch(e) {
-    document.getElementById('visitor-count').textContent = '—';
-  }
-}
-loadVisitorCount();
-
-// ID ÚNICO PARA TU POST
-const noteId = "entry_001"; 
-
-function initLikes() {
-  document.querySelectorAll('.like-btn').forEach(btn => {
-
-    const id = btn.dataset.id;
-    const countEl = btn.querySelector('.count');
-    const key = 'liked_' + id;
-
-    async function loadLikes() {
-      try {
-        const r = await fetch(`https://api.counterapi.dev/v1/oilworkerpantheon/likes_${id}`);
-        const d = await r.json();
-        countEl.textContent = d.count ?? d.Count ?? 0;
-      } catch {
-        countEl.textContent = '0';
-      }
-
-      if (localStorage.getItem(key)) {
-        btn.classList.add('liked');
-      }
-    }
-
-    btn.addEventListener('click', async () => {
-
-      if (localStorage.getItem(key)) {
-        const r = await fetch(`https://api.counterapi.dev/v1/oilworkerpantheon/likes_${id}/down`);
-        const d = await r.json();
-
-        countEl.textContent = d.count ?? d.Count ?? 0;
-        localStorage.removeItem(key);
-        btn.classList.remove('liked');
-
-      } else {
-        const r = await fetch(`https://api.counterapi.dev/v1/oilworkerpantheon/likes_${id}/up`);
-        const d = await r.json();
-
-        countEl.textContent = d.count ?? d.Count ?? 0;
-        localStorage.setItem(key, '1');
-        btn.classList.add('liked');
-      }
-
-    });
-
-    initLikes();
-  });
-}
-
-</script>
 
 </body>
 </html>
