@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OilWorkerPantheon — Dev Notes</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0e14;
+    --bg2: #0f1520;
+    --border: #1e2a38;
+    --text: #8fa8be;
+    --text-dim: #3a4f62;
+    --red: #c0392b;
+    --red-bright: #e05040;
+    --blue: #1a5fa0;
+    --blue-bright: #2a7fd4;
+    --white: #d0dde8;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 14px;
+    line-height: 1.8;
+  }
+
+  /* PIXEL GRID BACKGROUND */
+  body {
+    background-image:
+      linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 24px 24px;
+    background-color: var(--bg);
+  }
+
+  /* ═══════════ HEADER ═══════════ */
+  header {
+    text-align: center;
+    padding: 56px 20px 48px;
+    border-bottom: 2px solid var(--border);
+    background: var(--bg);
+    image-rendering: pixelated;
+  }
+
+  .logo {
+    font-family: 'Press Start 2P', monospace;
+    font-size: clamp(13px, 2.5vw, 22px);
+    line-height: 1.8;
+    background: linear-gradient(
+      180deg,
+      var(--red-bright) 0%,
+      #aa44aa 50%,
+      var(--blue-bright) 100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: 2px;
+  }
+
+  .logo-sub {
+    font-size: 10px;
+    color: var(--text-dim);
+    margin-top: 16px;
+    letter-spacing: 4px;
+  }
+
+  .visitor-bar {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 24px;
+    padding: 8px 18px;
+    border: 1px solid var(--border);
+    font-size: 10px;
+    color: var(--text-dim);
+    letter-spacing: 2px;
+    background: var(--bg2);
+  }
+
+  .visitor-dot {
+    width: 6px; height: 6px;
+    background: var(--red-bright);
+    animation: blink 1.2s steps(1) infinite;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+  #visitor-count { color: var(--red-bright); }
+
+  /* ═══════════ NAV ═══════════ */
+  nav {
+    display: flex;
+    justify-content: center;
+    border-bottom: 2px solid var(--border);
+    background: var(--bg2);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+
+  nav a {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 9px;
+    color: var(--text-dim);
+    text-decoration: none;
+    padding: 14px 22px;
+    border-right: 1px solid var(--border);
+    letter-spacing: 1px;
+    transition: color 0.1s, background 0.1s;
+  }
+
+  nav a:first-child { border-left: 1px solid var(--border); }
+  nav a:hover { color: var(--white); background: rgba(255,255,255,0.02); }
+
+  /* ═══════════ MAIN ═══════════ */
+  main {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 48px 20px 80px;
+  }
+
+  .section-label {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    color: var(--text-dim);
+    letter-spacing: 4px;
+    margin-bottom: 24px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* ═══════════ CARD ═══════════ */
+  .note-card {
+    display: flex;
+    border: 1px solid var(--border);
+    background: var(--bg2);
+    margin-bottom: 16px;
+  }
+
+  .note-card:hover {
+    border-color: var(--red);
+  }
+
+  /* DATE */
+  .note-date {
+    width: 72px;
+    min-width: 72px;
+    border-right: 1px solid var(--border);
+    padding: 20px 8px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    background: var(--bg);
+  }
+
+  .note-date .day {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 18px;
+    color: var(--red-bright);
+    line-height: 1;
+  }
+
+  .note-date .month {
+    font-size: 9px;
+    color: var(--text-dim);
+    letter-spacing: 1px;
+  }
+
+  .note-date .year {
+    font-size: 8px;
+    color: var(--text-dim);
+    opacity: 0.4;
+  }
+
+  /* CONTENT */
+  .note-content {
+    padding: 20px 24px;
+    flex: 1;
+  }
+
+  .note-tag {
+    font-size: 9px;
+    color: var(--red-bright);
+    letter-spacing: 3px;
+    margin-bottom: 8px;
+  }
+
+  .note-title {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 13px;
+    color: var(--white);
+    margin-bottom: 14px;
+    line-height: 1.6;
+    letter-spacing: 1px;
+  }
+
+  .note-body {
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.85;
+    margin-bottom: 18px;
+  }
+
+  .note-body p + p { margin-top: 10px; }
+
+  /* CARD FOOTER */
+  .note-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid var(--border);
+    padding-top: 12px;
+  }
+
+  .like-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 1px;
+    padding: 5px 12px;
+    cursor: pointer;
+    transition: all 0.1s;
+  }
+
+  .like-btn:hover { border-color: var(--red-bright); color: var(--red-bright); }
+  .like-btn.liked { border-color: var(--red-bright); color: var(--red-bright); }
+
+  .note-id {
+    font-size: 9px;
+    color: var(--text-dim);
+    opacity: 0.4;
+    letter-spacing: 2px;
+  }
+
+  /* ═══════════ FOOTER ═══════════ */
+  footer {
+    border-top: 2px solid var(--border);
+    text-align: center;
+    padding: 28px 20px;
+    font-size: 9px;
+    color: var(--text-dim);
+    letter-spacing: 3px;
+    background: var(--bg2);
+  }
+
+  footer span { color: var(--red-bright); }
+
+  @media (max-width: 500px) {
+    .note-date { width: 56px; min-width: 56px; }
+    .note-date .day { font-size: 14px; }
+    .note-title { font-size: 10px; }
+    nav a { font-size: 7px; padding: 12px 12px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">OILWORKERPANTHEON<br>DEV NOTES HUB</div>
+  <div class="logo-sub">solo indie developer — building in the dark</div>
+  <div class="visitor-bar">
+    <span class="visitor-dot"></span>
+    <span>VISITORS:</span>
+    <span id="visitor-count">——</span>
+  </div>
+</header>
+
+<nav>
+  <a href="#notes">NOTES</a>
+  <a href="#about">ABOUT</a>
+  <a href="https://twitter.com/OilWorkerPantheon" target="_blank">TWITTER</a>
+</nav>
+
+<main>
+
+  <div class="section-label" id="notes">// DEV LOG ENTRIES</div>
+
+  <!-- ENTRY 001 -->
+  <article class="note-card">
+    <div class="note-date">
+      <span class="day">01</span>
+      <span class="month">JUN</span>
+      <span class="year">2025</span>
+    </div>
+    <div class="note-content">
+      <div class="note-tag">// CONCEPT — DAY ZERO</div>
+      <h2 class="note-title">It Starts Here. Alone.</h2>
+      <div class="note-body">
+        <p>I got removed from the team I helped found. No drama. Just a door closing.</p>
+        <p>So I opened a new one. This is Red Project — a game about economies, rules, and emergent systems. No characters. No story. No 3D open world. Just systems that behave like real systems do: complex, fragile, and infinitely surprising.</p>
+        <p>Think Balatro meets Conway's Game of Life, set in ancient Greece. You are the legislator. The economy obeys your laws. Or doesn't.</p>
+        <p>Engine: Unity. Team size: 1. Timeline: whenever it's ready.</p>
+      </div>
+      <div class="note-footer">
+        <button class="like-btn" onclick="toggleLike(this)">
+          ♥ <span class="count">0</span>
+        </button>
+        <span class="note-id">// ENTRY_001</span>
+      </div>
+    </div>
+  </article>
+
+  <!-- ADD NEW ENTRIES ABOVE THIS LINE — copy the article block above -->
+
+  <div class="section-label" id="about" style="margin-top:48px;">// ABOUT</div>
+
+  <article class="note-card">
+    <div class="note-date">
+      <span class="day">??</span>
+      <span class="month">???</span>
+      <span class="year">????</span>
+    </div>
+    <div class="note-content">
+      <div class="note-tag">// WHO IS THIS</div>
+      <h2 class="note-title">OilWorkerPantheon</h2>
+      <div class="note-body">
+        <p>Solo indie developer. From an oil town. Building games alone.</p>
+        <p>This is the dev log for Red Project — a 2D abstract economic simulation game currently in early prototyping. No publisher. No team. No release date.</p>
+        <p>Updates whenever something worth saying happens.</p>
+      </div>
+      <div class="note-footer">
+        <span></span>
+        <span class="note-id">// ABOUT</span>
+      </div>
+    </div>
+  </article>
+
+</main>
+
+<footer>
+  <span>OilWorkerPantheon</span> — no ads. no tracking. just dev notes.
+</footer>
+
+<script>
+async function loadVisitorCount() {
+  try {
+    const r = await fetch('https://hits.sh/oilworkerpantheon.github.io.json');
+    const d = await r.json();
+    document.getElementById('visitor-count').textContent =
+      parseInt(d.count).toLocaleString('en-US');
+  } catch(e) {
+    document.getElementById('visitor-count').textContent = '—';
+  }
+}
+loadVisitorCount();
+
+function toggleLike(btn) {
+  const countEl = btn.querySelector('.count');
+  const id = btn.closest('article').querySelector('.note-id').textContent;
+  const key = 'like_' + id;
+  if (localStorage.getItem(key)) {
+    localStorage.removeItem(key);
+    btn.classList.remove('liked');
+    countEl.textContent = parseInt(countEl.textContent) - 1;
+  } else {
+    localStorage.setItem(key, '1');
+    btn.classList.add('liked');
+    countEl.textContent = parseInt(countEl.textContent) + 1;
+  }
+}
+
+document.querySelectorAll('.like-btn').forEach(btn => {
+  const id = btn.closest('article').querySelector('.note-id').textContent;
+  if (localStorage.getItem('like_' + id)) {
+    btn.classList.add('liked');
+    btn.querySelector('.count').textContent = '1';
+  }
+});
+</script>
+
+</body>
+</html>
