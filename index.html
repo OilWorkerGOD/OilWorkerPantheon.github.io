@@ -354,10 +354,10 @@
 <script>
 async function loadVisitorCount() {
   try {
-    const r = await fetch('https://hits.sh/oilworkerpantheon.github.io.json');
+    const r = await fetch('https://api.countapi.xyz/hit/oilworkerpantheon.github.io/visits');
     const d = await r.json();
     document.getElementById('visitor-count').textContent =
-      parseInt(d.count).toLocaleString('en-US');
+      parseInt(d.value).toLocaleString('en-US');
   } catch(e) {
     document.getElementById('visitor-count').textContent = '—';
   }
