@@ -310,7 +310,7 @@
         <p>Latest news: I got a fuckin 14 pages GDD (Game Design Document) and I think it's just gettin bigger :'[</p>
       </div>
       <div class="note-footer">
-        <button class="like-btn" onclick="toggleLike(this)">
+        <button class="like-btn" data-id="entry_001">
           ♥ <span class="count">0</span>
         </button>
         <span class="note-id">// ENTRY_001</span>
@@ -369,65 +369,52 @@ loadVisitorCount();
 // ID ÚNICO PARA TU POST
 const noteId = "entry_001"; 
 
-// CARGAR LIKES GLOBALES AL INICIAR LA PÁGINA
-async function loadLikes() {
-  const btn = document.querySelector('.like-btn');
-  const countEl = btn.querySelector('.count');
-  
-  try {
-    // Pedimos el valor actual sin alterarlo (quitamos el /up o /down)
-    const r = await fetch(`https://api.counterapi.dev/v1/oilworkerpantheon/likes_${noteId}`);
-    const d = await r.json();
-    
-    // Validamos exactamente la propiedad que responde CounterAPI
-    const totalLikes = d.count !== undefined ? d.count : (d.Count !== undefined ? d.Count : 0);
-    
-    countEl.textContent = totalLikes;
-  } catch(e) {
-    countEl.textContent = '0';
-  }
+function initLikes() {
+  document.querySelectorAll('.like-btn').forEach(btn => {
 
-  // Mantenemos el botón rojo si este usuario específico ya votó
-  if (localStorage.getItem('liked_' + noteId)) {
-    btn.classList.add('liked');
-  }
-}
-loadLikes();
+    const id = btn.dataset.id;
+    const countEl = btn.querySelector('.count');
+    const key = 'liked_' + id;
 
-// ACCIÓN DE DAR/QUITAR LIKE
-async function toggleLike(btn) {
-  const countEl = btn.querySelector('.count');
-  const key = 'liked_' + noteId;
-  
-  // Si ya le dio like, lo decrementamos globalmente
-  if (localStorage.getItem(key)) {
-    try {
-      const r = await fetch(`https://api.counterapi.dev/v1/oilworkerpantheon/likes_${noteId}/down`);
-      const d = await r.json();
-      const totalLikes = d.count !== undefined ? d.count : d.Count;
-      
-      localStorage.removeItem(key);
-      btn.classList.remove('liked');
-      countEl.textContent = totalLikes;
-    } catch(e){
-      // Fail-safe por si la API falla en el momento
-      countEl.textContent = Math.max(0, parseInt(countEl.textContent) - 1);
+    async function loadLikes() {
+      try {
+        const r = await fetch(`https://api.counterapi.dev/v1/oilworkerpantheon/likes_${id}`);
+        const d = await r.json();
+        countEl.textContent = d.count ?? d.Count ?? 0;
+      } catch {
+        countEl.textContent = '0';
+      }
+
+      if (localStorage.getItem(key)) {
+        btn.classList.add('liked');
+      }
     }
-  } else {
-    // Si no ha votado, sumamos globalmente
-    try {
-      const r = await fetch(`https://api.counterapi.dev/v1/oilworkerpantheon/likes_${noteId}/up`);
-      const d = await r.json();
-      const totalLikes = d.count !== undefined ? d.count : d.Count;
-      
-      localStorage.setItem(key, '1');
-      btn.classList.add('liked');
-      countEl.textContent = totalLikes;
-    } catch(e){
-      countEl.textContent = parseInt(countEl.textContent) + 1;
-    }
-  }
+
+    btn.addEventListener('click', async () => {
+
+      if (localStorage.getItem(key)) {
+        const r = await fetch(`https://api.counterapi.dev/v1/oilworkerpantheon/likes_${id}/down`);
+        const d = await r.json();
+
+        countEl.textContent = d.count ?? d.Count ?? 0;
+        localStorage.removeItem(key);
+        btn.classList.remove('liked');
+
+      } else {
+        const r = await fetch(`https://api.counterapi.dev/v1/oilworkerpantheon/likes_${id}/up`);
+        const d = await r.json();
+
+        countEl.textContent = d.count ?? d.Count ?? 0;
+        localStorage.setItem(key, '1');
+        btn.classList.add('liked');
+      }
+
+    });
+
+    initLikes();
+  });
 }
+
 </script>
 
 </body>
