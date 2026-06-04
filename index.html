@@ -352,40 +352,69 @@
 </footer>
 
 <script>
+// Usamos CounterAPI para las visitas globales (reemplazo de la vieja countapi)
 async function loadVisitorCount() {
   try {
-    const r = await fetch('https://api.countapi.xyz/hit/oilworkerpantheon.github.io/visits');
+    // Nota: Cambiamos a counterapi.dev que sí está activa
+    const r = await fetch('https://api.counterapi.dev/v1/oilworkerpantheon/visits/up');
     const d = await r.json();
-    document.getElementById('visitor-count').textContent =
-      parseInt(d.value).toLocaleString('en-US');
+    document.getElementById('visitor-count').textContent = 
+      parseInt(d.count).toLocaleString('en-US');
   } catch(e) {
     document.getElementById('visitor-count').textContent = '—';
   }
 }
 loadVisitorCount();
 
-function toggleLike(btn) {
+// ID único para tu post (limpiamos el texto '// ENTRY_001' a algo seguro para URLs)
+const noteId = "entry_001"; 
+// Usamos una API pública de likes temporales (Lyket con ID de test o una estructura fetch simple)
+// Para no complicarte con registros de APIs, simularemos el guardado global combinando LocalStorage 
+// para la experiencia del usuario y una API libre para el conteo global:
+
+async function loadLikes() {
+  const btn = document.querySelector('.like-btn');
   const countEl = btn.querySelector('.count');
-  const id = btn.closest('article').querySelector('.note-id').textContent;
-  const key = 'like_' + id;
-  if (localStorage.getItem(key)) {
-    localStorage.removeItem(key);
-    btn.classList.remove('liked');
-    countEl.textContent = parseInt(countEl.textContent) - 1;
-  } else {
-    localStorage.setItem(key, '1');
+  
+  // Cargamos los likes globales usando counterapi también (una ruta para el post)
+  try {
+    const r = await fetch(`https://api.counterapi.dev/v1/oilworkerpantheon/likes_${noteId}`);
+    const d = await r.json();
+    countEl.textContent = d.count || 0;
+  } catch(e) {
+    countEl.textContent = '0';
+  }
+
+  // Verificamos si este usuario local ya le dio like antes (estético)
+  if (localStorage.getItem('liked_' + noteId)) {
     btn.classList.add('liked');
-    countEl.textContent = parseInt(countEl.textContent) + 1;
   }
 }
+loadLikes();
 
-document.querySelectorAll('.like-btn').forEach(btn => {
-  const id = btn.closest('article').querySelector('.note-id').textContent;
-  if (localStorage.getItem('like_' + id)) {
-    btn.classList.add('liked');
-    btn.querySelector('.count').textContent = '1';
+async function toggleLike(btn) {
+  const countEl = btn.querySelector('.count');
+  const key = 'liked_' + noteId;
+  
+  if (localStorage.getItem(key)) {
+    // El usuario ya le dio like, no lo dejamos votar mil veces de forma simple en su interfaz
+    // (Opcional: podrías restar usando la API, pero counterapi.dev/down resta)
+    try {
+      await fetch(`https://api.counterapi.dev/v1/oilworkerpantheon/likes_${noteId}/down`);
+      localStorage.removeItem(key);
+      btn.classList.remove('liked');
+      countEl.textContent = Math.max(0, parseInt(countEl.textContent) - 1);
+    } catch(e){}
+  } else {
+    // Suma un voto global a la API
+    try {
+      await fetch(`https://api.counterapi.dev/v1/oilworkerpantheon/likes_${noteId}/up`);
+      localStorage.setItem(key, '1');
+      btn.classList.add('liked');
+      countEl.textContent = parseInt(countEl.textContent) + 1;
+    } catch(e){}
   }
-});
+}
 </script>
 
 </body>
